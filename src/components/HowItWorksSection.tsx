@@ -1,0 +1,91 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Cpu, Wifi, Smartphone } from "lucide-react";
+
+const steps = [
+  {
+    number: "01",
+    icon: Cpu,
+    title: "Install IoT Sensors",
+    description: "Place our specialized sensors throughout your farm or greenhouse according to your needs.",
+  },
+  {
+    number: "02",
+    icon: Wifi,
+    title: "Connect to Network",
+    description: "Connect devices to WiFi or LoRaWAN network for seamless data transmission to the cloud.",
+  },
+  {
+    number: "03",
+    icon: Smartphone,
+    title: "Monitor & Control",
+    description: "Access real-time data and control your farm operations from our mobile app or web dashboard.",
+  },
+];
+
+export function HowItWorksSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section className="py-24 bg-muted/30 overflow-hidden">
+      <div className="container mx-auto px-6">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="inline-block text-sm font-semibold text-primary mb-3 tracking-wider uppercase">
+            How It Works
+          </span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Simple Setup Process
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Transform your farm with IoT technology in three easy steps
+          </p>
+        </motion.div>
+
+        <div className="relative">
+          {/* Connection Line */}
+          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent -translate-y-1/2" />
+
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="relative"
+                >
+                  <div className="bg-card rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-border/50">
+                    {/* Step Number */}
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-primary text-primary-foreground font-display font-bold text-lg flex items-center justify-center shadow-lg">
+                      {index + 1}
+                    </div>
+
+                    <div className="w-20 h-20 mx-auto mb-6 mt-4 rounded-3xl bg-primary/10 flex items-center justify-center">
+                      <Icon className="w-10 h-10 text-primary" />
+                    </div>
+
+                    <h3 className="font-display text-xl font-semibold text-foreground mb-3">
+                      {step.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
